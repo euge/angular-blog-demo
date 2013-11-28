@@ -1,0 +1,5 @@
+[
+  { "title" : "I love Rails", "readers" : 10 },
+  { "title" : "I love PHP", "readers" : 13 },
+  { "title" : "I love JS", "readers" : 1300 }
+]

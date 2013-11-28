@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Demo Blog</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+</head>
+<body>
+  <div ng-app="app" class="container">
+    <div class="row" ng-controller="main">
+      
+      <div class="col-md-4">
+        <h1>Counter</h1>
+        <div>Counter {{ counter }} </div>
+      </div>
+
+      <div class="col-md-4">
+        <h1>Suffix</h1>
+        <div>{{ mainControllerSuffix }}</div>
+
+        <h1>Address Book</h1>
+        <div ng-controller="people">
+          <div ng-repeat="person in data">
+            ID# {{ person.id }} is {{ person.name }}
+          </div>
+          <input type="text" ng-model="name"/>
+          <a href="#" ng-click="save(name)">Save!</a>
+        </div>
+
+        <h1>Math</h1>
+        <div ng-controller="math">
+          I can add: {{nums.first }} + {{nums.second}} =  {{ nums.first + nums.second }}
+          <a href="#" ng-click="incFirst()">inc!</a>
+          <div ng-hide="(nums.first + nums.second) % 2 !== 0">I am even</div>
+          <div ng-hide="(nums.first + nums.second) % 2 === 0">I am odd</div>
+        </div>
+
+      </div>
+      
+      <div class="col-md-4">
+        <h1>Bloggy</h1>
+        <div><a href="" ng-click="fetchBlogs()" ng-show="blogs.length == 0">Fetch Some Blogs</a></div>
+        
+        <table class="table table-striped" ng-show="blogs.length > 0">
+          <tr>
+            <th>Title</th>
+            <th>Num Readers</th>
+            <th>Actions</th>
+          </tr>
+
+          <tr ng-repeat="blog in blogs">
+            <td>{{ blog.title }}</td>
+            <td>{{ blog.readers }}</td>
+            <td><a href="" ng-click="deleteBlog(blog, $index)" style="color:#c12e2a;"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+          </tr>
+
+        </table>
+
+        <div><a href="" ng-click="setNewBlogState(true)" ng-show="!showingNewBlog">New Blog</a></div>
+
+        <form ng-show="showingNewBlog" ng-submit="addNewBlog(newBlog)">
+          <input ng-model="newBlog.title" type="text" />
+          <input ng-model="newBlog.readers" type="text" />
+          <button type="submit" class="btn btn-primary">Add!</button>
+          <button type="button" class="btn btn-danger" ng-click="setNewBlogState(false)">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>  
+  <script src="js/lib/angular.min.js"></script>
+  <script src="js/app/main.js"></script>
+</body>
+</html>

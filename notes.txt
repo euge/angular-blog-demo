@@ -1,0 +1,3 @@
+- scope is inherited by controllers inside of another controller
+- if a scope is modified by a child, the parent is not effected
+$timeout is a wrapper around setTimeout, but will apply scope changes
