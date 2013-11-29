@@ -1,3 +1,8 @@
 - scope is inherited by controllers inside of another controller
 - if a scope is modified by a child, the parent is not effected
 $timeout is a wrapper around setTimeout, but will apply scope changes
+$scope.$apply with a callback is used to add actions into angular event loop...like external libraries, calls to setTimeout
+info on isolate scope options http://docs.angularjs.org/api/ng.$compile The diffs between =, @, and &
+  @ is just the dom string name
+  = is the actual resolved value and created a biderctional bridge between the isolate scope and the parent one
+  & wraps in a function wrapper an expression to be executed in the context of the parent scope...like an event handler, ie after-close="modalClosed()"

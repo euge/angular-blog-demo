@@ -1,4 +1,4 @@
-var app = angular.module('app', []);
+var app = angular.module('app', [ "ngResource" ]);
 
 app.controller('people', function($scope) {  
   $scope.data = [
@@ -22,13 +22,19 @@ app.controller('math', function($scope) {
   };
 });
 
-app.controller('main', function($scope, $http, $timeout, Blog) {
+app.controller('main', function($scope, $http, $timeout, $q, Blog) {
   $scope.mainControllerSuffix = "-mainy";
   $scope.blogs                = [];
   $scope.counter              = 0;
+  $scope.showingModal_1       = false;
+  $scope.showingModal_2       = false;
+
+  $scope.modalOpened = function() {
+    alert("wow! the modal opened!");
+  }
 
   $scope.fetchBlogs = function() {
-    Blog.get(function(blogs) {
+    Blog.query(function(blogs) {
       $scope.blogs = blogs;
     });    
   }
@@ -59,19 +65,27 @@ app.controller('main', function($scope, $http, $timeout, Blog) {
     $scope.newBlog = null;
   }
 
-
   $scope.setNewBlogState(false);
   $scope.addToTimer();
+
+  var deferred = $q.defer();
+
+  deferred.promise.then(function(response) {
+    $scope.asyncItems = response;
+  });
+
+  $timeout(function() {
+    deferred.resolve([ { name : "a" }, { name : "b" }, { name  : "c "} ]);
+  }, 2000);
 });
 
-app.factory("Blog", function($http) {
+app.factory("Blog", function($http, $resource) {
+
+  var Blog = $resource("/blogs.json");
 
   return {
-    get : function(callback) {
-      $http({
-        method : "GET",
-        url : "/blogs.json"
-      }).success(callback);
+    query : function(callback) {
+      Blog.query(callback);
     },
 
     create : function(data, callback) {
@@ -93,6 +107,52 @@ app.factory("Blog", function($http) {
       }).finally(callback);
 
     }
+  };
 
+});
+
+app.directive("blogItem", function() {
+  return {
+    template: '\
+      <td>{{ blog.title }}</td>\
+      <td>{{ blog.readers }}</td>\
+      <td><a href="" ng-click="deleteBlog(blog, $index)" style="color:#c12e2a;"><span class="glyphicon glyphicon-remove-circle"></span></a></td>'
+  };
+});
+
+app.directive("modal", function() {
+  return {
+    restrict : "E",
+    template: "<div ng-show='show'><div>something standard here</div><div ng-transclude></div></div>",
+    replace : true,
+    transclude : true,
+    scope : {
+      // take the attribute value provided as "showing" and make it available in this scope as "show"
+      // also sets up bidirectional bridge between em
+      "show" : "=showing",
+      // take the event handler provided as "after-open" and make it available in this scope as "customAfterOpen"
+      "customAfterOpen" : "&afterOpen",
+      // take the attribute string "color" and make it available in this scope as "color"
+      "color" : "@"
+    },
+    link : function(scope, elem, attrs) {
+      // style the element
+      elem.css({
+        position: "fixed",
+        width: "100%",
+        height: "40%",
+        backgroundColor : scope.color,
+        zIndex: 1000
+      });
+
+      // watch for change in the show property
+      scope.$watch('show', function(newValue, oldValue) {
+        if (newValue) {
+          // dialog is now open
+          scope.customAfterOpen();
+        }
+      });
+
+    }
   };
 });
