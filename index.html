@@ -30,6 +30,7 @@
 
         <h1>Math</h1>
         <div ng-controller="math">
+          <div>{{ mainControllerSuffix }}</div>
           I can add: {{nums.first }} + {{nums.second}} =  {{ nums.first + nums.second }}
           <a href="#" ng-click="incFirst()">inc!</a>
           <div ng-hide="(nums.first + nums.second) % 2 !== 0">I am even</div>
