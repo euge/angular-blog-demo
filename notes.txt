@@ -6,3 +6,18 @@ info on isolate scope options http://docs.angularjs.org/api/ng.$compile The diff
   @ is just the dom string name
   = is the actual resolved value and created a biderctional bridge between the isolate scope and the parent one
   & wraps in a function wrapper an expression to be executed in the context of the parent scope...like an event handler, ie after-close="modalClosed()"
+
+  looks like passing an object literal via an "=" scope causes digest errors, seems like a known issue
+
+  The idea of the compile function is it gives you a chance to programmatically alter the DOM elements based on attributes passed BEFORE the linking function is created and called.
+
+
+  Questions?
+    how $compile works and how custom templates could be created
+    http://www.benlesh.com/2013/08/angular-compile-how-it-works-how-to-use.html
+
+    what is  transclude: 'element',
+    http://liamkaufman.com/blog/2013/05/13/understanding-angularjs-directives-part1-ng-repeat-and-compile/
+
+    
+    http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html?m=1

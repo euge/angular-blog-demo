@@ -120,6 +120,35 @@ app.directive("blogItem", function() {
   };
 });
 
+app.directive("customTable", function($compile) {
+
+  function createTemplate(headings) {
+    return "<ul><li ng-repeat='item in headings'>{{ item}}</li></ul>";
+  }
+
+
+  return {
+    restrict : "E",
+    link : function($scope, element, attrs) {
+      var headings = $scope.$eval(attrs.headings)
+      $scope.headings = headings;
+      var html = createTemplate(headings);
+
+      var el = angular.element(html),
+
+             //compile the view into a function.
+                 compiled = $compile(el);
+
+             //append our view to the element of the directive.
+             element.append(el);
+
+             //bind our view to the scope!
+             //(try commenting out this line to see what happens!)
+             compiled($scope);
+    }
+  }
+})
+
 app.directive("modal", function() {
   return {
     restrict : "E",
