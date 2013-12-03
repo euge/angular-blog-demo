@@ -185,3 +185,34 @@ app.directive("modal", function() {
     }
   };
 });
+
+
+app.directive("simpleWrapper", function() {
+
+  return {
+    transclude : true,
+    template : '<div style="background-color:grey" ng-transclude></div>',
+    compile : function(el) {
+      console.log("Simple transclusion el: ", el);
+    }
+  }
+
+});
+
+app.directive("complexWrapper", function() {
+
+  return {
+    scope : {},
+    transclude : "element",
+    link : function($scope, el, attrs, ctrl, transLinker) {
+      var transcludedContent = transLinker();
+      var wrap = angular.element("<div>").css({
+        "background-color" : "yellow",
+        "padding" : "20px"
+      }).append(transcludedContent)
+        
+      el.after(wrap);
+    }
+  }
+
+});

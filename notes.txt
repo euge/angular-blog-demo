@@ -11,6 +11,26 @@ info on isolate scope options http://docs.angularjs.org/api/ng.$compile The diff
 
   The idea of the compile function is it gives you a chance to programmatically alter the DOM elements based on attributes passed BEFORE the linking function is created and called.
 
+  compile function is just for modifying the template, nothing else
+
+  - use $parse to set stuff in scope:
+     $parse(attrs.something).assign(scope, value);
+
+     You can just do $scope[attrs.something] = "bob" but if the user provided an
+     attr such as "list.last" or soemthing that is a full on angular expression, that
+     wouldn't work.
+
+
+- It seems like the tranclusion function is mostly there so that you can move around
+the content to be transcluded, but linked it to the correct scope. Like if your directive has an isloate scope and it transcludes a bunch of content inside of it...that content needs to be associated with not the isolate scope, but its parent. so the tranclusion function gives you a callback of the cloned content that is already linked to the correct scope. You can now move it around, but it is linked correctly
+
+
+replace : true - replaces element with template
+transclude : true - takes inside content of directive and lets you insert it somewhere
+transclude : "element" - takes the entire element and lets you insert it somewhere
+
+transcludeFn - gives you a clone of transcluded content after it has been linked to correct scope. you can now move this content where ever you like and it will be linked correctly. reason it seems is that you want to link the content first before moving it around because if you didnt, an incorrect scope may be used, based on where it was moved. Also the the function can be called without a callback if you don't need a clone. it will just return the transcluded content after linking. the whole clone callback looks like its
+there in case you need to do dup the content multiple times like ng-repeat
 
   Questions?
     how $compile works and how custom templates could be created
@@ -19,5 +39,11 @@ info on isolate scope options http://docs.angularjs.org/api/ng.$compile The diff
     what is  transclude: 'element',
     http://liamkaufman.com/blog/2013/05/13/understanding-angularjs-directives-part1-ng-repeat-and-compile/
 
-    
+
+    what is the transclusion function passed to link or in old version to compile
     http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html?m=1
+
+
+
+More transclude reading:
+  http://www.bennadel.com/blog/2558-Using-Start-End-Directive-Ranges-In-AngularJS-1-2.htm

@@ -70,6 +70,19 @@
       </div>
       
       <div class="col-md-4">
+        <h1>Transclusion Confusion</h1>
+        <h2>Just as wrapper</h2>
+        <div simple-wrapper>
+          <div>hi! I should be in a grey box</div>
+        </div>
+        
+
+        <h2>Using transclude : "element"</h2>
+        <div complex-wrapper style="background-color:grey;">
+          <div>hi! I should be in a grey box whihch is in a yellow box</div>
+          <div> {{ mainControllerSuffix }}</div>
+        </div>
+
         <h1>Bloggy</h1>
         <div><a href="" ng-click="fetchBlogs()" ng-show="blogs.length == 0">Fetch Some Blogs</a></div>
         
