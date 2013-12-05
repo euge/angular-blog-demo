@@ -12,6 +12,10 @@ info on isolate scope options http://docs.angularjs.org/api/ng.$compile The diff
   The idea of the compile function is it gives you a chance to programmatically alter the DOM elements based on attributes passed BEFORE the linking function is created and called.
 
   compile function is just for modifying the template, nothing else
+  looks like replace does not work when specifiying compile, your compile function must do whatever it needs
+
+  different between compile and link http://stackoverflow.com/questions/12164138/what-is-the-difference-between-compile-and-link-function-in-angularjs
+  in short, compile makes dom modifications that are the same acrosss all instances, link does modifications on a per instance basis
 
   - use $parse to set stuff in scope:
      $parse(attrs.something).assign(scope, value);
@@ -42,6 +46,13 @@ there in case you need to do dup the content multiple times like ng-repeat
 
     what is the transclusion function passed to link or in old version to compile
     http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html?m=1
+
+
+Confusing behavior with transclusion and scopes:
+http://jsbin.com/iPIbubA/25/edit
+
+Looks like when there is a template on a directive, it will be passed the isolate scope, but the transcluded content will get the parent scope
+
 
 
 

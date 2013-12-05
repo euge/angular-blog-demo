@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Demo Blog</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+</head>
+<body>
+  <div ng-app="app" class="container">
+    <h1>Blog Demo</h1>
+    <div class="row" ng-controller="users">
+      <div class="col-md-4">
+        <collection items="users">
+          {{ $index + 1 }} - {{ item.name}} / {{ item.email }}
+        </collection>
+      </div>
+    </div>
+  </div>
+  <script src="js/lib/angular.min.js"></script>
+  <script src="js/lib/angular-resource.js"></script>
+  <script src="js/app/blog.js"></script>
+</body>
+</html>
+
